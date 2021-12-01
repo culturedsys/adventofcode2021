@@ -1,0 +1,3 @@
+(test
+ (name day1)
+ (libraries ounit2 adventofcode2021))
