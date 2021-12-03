@@ -26,5 +26,18 @@ let suite1 = "Day3 part 1" >::: [
   )
 ]
 
+let suite2 = "Day3 part 2" >::: [
+  "most common bits" >:: (fun _ ->
+    assert_equal [true ; false ; true] 
+      (most_common_bits [[true; false; true]; [true; true; true]; [true; false; false]])
+      ~printer: (Base.Fn.compose (String.concat ", ") (List.map string_of_bool))  
+  );
+  "correct answer for example" >:: (fun _ ->
+    let input = example |> List.map bits_of_string in
+    assert_equal 23 (filter most_common_bits input |> int_of_bits) ~printer: string_of_int  
+  )
+ ]
+
 let () = 
-  run_test_tt_main suite1
+  run_test_tt_main suite1;
+  run_test_tt_main suite2
