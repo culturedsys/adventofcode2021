@@ -22,7 +22,7 @@ let suite1 = "Day3 part 1" >::: [
       (count_bits [[true; false; true]; [true; true; true]; [true; false; false]])
   );
   "correct answer for example" >:: (fun _ ->
-    assert_equal 22 (calculate_totals example)
+    assert_equal 22 (example |> parse_input |> most_common_bits |> int_of_bits)
   )
 ]
 
@@ -33,8 +33,7 @@ let suite2 = "Day3 part 2" >::: [
       ~printer: (Base.Fn.compose (String.concat ", ") (List.map string_of_bool))  
   );
   "correct answer for example" >:: (fun _ ->
-    let input = example |> List.map bits_of_string in
-    assert_equal 23 (filter most_common_bits input |> int_of_bits) ~printer: string_of_int  
+    assert_equal 23 (example |> parse_input |> filter most_common_bits |> int_of_bits) ~printer: string_of_int  
   )
  ]
 
