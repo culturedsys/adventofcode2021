@@ -39,6 +39,14 @@ let suite1 = "Day 5 part 1" >::: [
       Map.count ~f: (fun c -> c > 1)  in
     assert_equal 5 result 
   );
+
+  "correct part 2 result for example" >:: (fun _ ->
+    let input = String.split_lines example in
+    let result = List.map ~f: parse_line input |> 
+      plot_all Point.Map.empty |>
+      Map.count ~f: (fun c -> c > 1)  in
+    assert_equal 12 result 
+  );
 ]
 
 let () = run_test_tt_main suite1
