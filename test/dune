@@ -32,3 +32,8 @@
  (name day7)
  (modules day7)
  (libraries ounit2 adventofcode2021))
+
+(test
+ (name day8)
+ (modules day8)
+ (libraries ounit2 adventofcode2021))
