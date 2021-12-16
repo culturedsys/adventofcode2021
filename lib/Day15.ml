@@ -34,6 +34,9 @@ module Node = struct
     | (Some _, None) -> -1
     | (None, Some _) -> 1
     | (None, None) -> compare l.cost r.cost
+
+  let equal l r = 
+    l.x = r.x && l.y = r.y && l.cost = r.cost
 end
 
 module Queue = Psq.Make (Point) (Node) 
@@ -70,3 +73,17 @@ let parse lines =
   let width = String.length (List.hd_exn lines) in
   let height = List.length lines in
   (width, height, nodes)
+
+let expand_graph graph dx dy dc =
+  Map.to_alist graph |> 
+  List.map ~f: (fun ((x, y), node) -> 
+    ((x + dx, y + dy), { node with x = x + dx; y = y + dy; cost = ((node.cost + dc - 1) % 9) + 1 })) |>
+  Map.of_alist_exn (module Point)
+
+let expand_all graph width height =
+  let top_row_cells = List.range 1 5 |> List.map ~f: (fun i -> expand_graph graph (width * i) 0 i) in
+  let top_row = List.fold top_row_cells ~init: graph ~f: (fun acc cell -> 
+    Map.merge_skewed ~combine: (fun ~key:_ _ _ -> failwith "Duplicate keys") acc cell) in
+  let rows = List.range 1 5 |> List.map ~f: (fun i -> expand_graph top_row 0 (height * i) i) in
+  List.fold rows ~init: top_row ~f: (fun acc cell ->
+    Map.merge_skewed ~combine: (fun ~key:_ _ _ -> failwith "Duplicate keys") acc cell)
