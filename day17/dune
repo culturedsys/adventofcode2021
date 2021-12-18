@@ -1,0 +1,4 @@
+(executable
+ (name part2)
+ (modules part2)
+ (libraries adventofcode2021 core))
