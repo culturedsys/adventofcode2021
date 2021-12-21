@@ -18,4 +18,13 @@ let suite1 = "Part 1" >::: [
   )
 ]
 
-let () = run_test_tt_main suite1
+let suite2 = "Part 2" >::: [
+  "correct result for example" >:: (fun _ ->
+    let (p1, p2) = wins_starting_from `player1 0 0 4 8 in
+    assert_equal 444356092776315 p1  ~printer: string_of_int;
+    assert_equal 341960390180808 p2  ~printer: string_of_int 
+  )
+]
+
+let () = run_test_tt_main suite1;
+    run_test_tt_main suite2
